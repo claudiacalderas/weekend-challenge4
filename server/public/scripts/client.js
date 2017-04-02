@@ -80,12 +80,12 @@ function displayProperties(arrayOfProperties) {
             propertyId = arrayOfProperties[i][name];
           break;
         case "rent":
-            propertyType = "FOR RENT";
+            propertyType = "For Rent";
             propertyPrice = "Monthly rent: $" + arrayOfProperties[i][name];
             color = "rent";
           break;
         case "cost":
-            propertyType = "FOR SALE";
+            propertyType = "For Sale";
             propertyPrice = "$" + arrayOfProperties[i][name];
             color = "sale";
           break;
@@ -99,7 +99,7 @@ function displayProperties(arrayOfProperties) {
     }
     var elementsToAppend = '';
     elementsToAppend +='<div class="col-xs-4 col-md-2 ">'; //thumbnail
-    elementsToAppend +='<h3 class="text-center '+ color +'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> ' + propertyType + '</h3>';
+    elementsToAppend +='<h3 class="text-center '+ color +'">' + propertyType + '</h3>';
     elementsToAppend +='<p class="text-center">' + propertyCity + '</p>';
     elementsToAppend +='<p class="text-center">' + propertySqft + '</p>';
     elementsToAppend +='<p class="text-center">' + propertyPrice + '</p></div>';
