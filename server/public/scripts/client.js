@@ -4,11 +4,9 @@ $(document).ready(function() {
   eventListeners();
   getProperties();
 
-
 });
 
 function eventListeners() {
-
   $('#addNewBtn').on('click', clickSubmit);
 
   $('#optionsRadios1').on('click',function() {
@@ -26,7 +24,7 @@ function clickSubmit(){
   var property = {};
   property.city = $("#cityInput").val();
   property.sqft = $("#sqftInput").val();
-  // stores sale or rent depending on the value of the radio inputs:
+  // sale or rent depending on the value of the radio inputs:
   var typeOfProperty = $('input[name=optionsRadios]:checked').val();
   console.log("typeOfProperty = ", typeOfProperty);
   if(typeOfProperty == "sale") {
@@ -43,8 +41,8 @@ function clickSubmit(){
   postProperty(property, typeOfProperty);
 }
 
+// Ajax calls
 function postProperty(property, type) {
-  console.log("In postProperties");
   $.ajax({
     type: "POST",
     url: "/listings/" + type,
@@ -56,12 +54,10 @@ function postProperty(property, type) {
 }
 
 function getProperties() {
-  console.log("In getProperties");
   $.ajax({
     type: "GET",
     url: "/listings",
     success: function(response) {
-      console.log("Getting listings: ",response);
       displayProperties(response);
     }
   });
@@ -76,6 +72,7 @@ function displayProperties(arrayOfProperties) {
   var propertySqft;
   var propertyCity;
   var propertyPrice;
+  var color;
   for (var i = 0; i < arrayOfProperties.length; i++) {
     for(var name in arrayOfProperties[i]) {
       switch (name) {
@@ -85,10 +82,12 @@ function displayProperties(arrayOfProperties) {
         case "rent":
             propertyType = "FOR RENT";
             propertyPrice = "Monthly rent: $" + arrayOfProperties[i][name];
+            color = "rent";
           break;
         case "cost":
             propertyType = "FOR SALE";
             propertyPrice = "$" + arrayOfProperties[i][name];
+            color = "sale";
           break;
         case "sqft":
             propertySqft = arrayOfProperties[i][name] + " Sqft";
@@ -100,7 +99,7 @@ function displayProperties(arrayOfProperties) {
     }
     var elementsToAppend = '';
     elementsToAppend +='<div class="col-xs-4 col-md-2 ">'; //thumbnail
-    elementsToAppend +='<h3 class="text-center"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> ' + propertyType + '</h3>';
+    elementsToAppend +='<h3 class="text-center '+ color +'"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> ' + propertyType + '</h3>';
     elementsToAppend +='<p class="text-center">' + propertyCity + '</p>';
     elementsToAppend +='<p class="text-center">' + propertySqft + '</p>';
     elementsToAppend +='<p class="text-center">' + propertyPrice + '</p></div>';
