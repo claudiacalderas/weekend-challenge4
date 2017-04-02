@@ -4,5 +4,15 @@
 }
 
 h1 {
-  font-weight: lighter;
+  /*font-weight: lighter;*/
+}
+
+h2 {
+  /*font-weight: lighter;*/
+}
+
+h3 {
+  background-color: LightSteelBlue;
+  /*font-weight: lighter;*/
+  font-size: 18px;
 }

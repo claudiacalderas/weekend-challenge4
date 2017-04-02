@@ -1,12 +1,62 @@
 $(document).ready(function() {
   console.log("jQuery sourced");
 
-  getSaleProperties();
+  eventListeners();
+  getProperties();
+
 
 });
 
-function getSaleProperties() {
-  console.log("In getSaleProperties");
+function eventListeners() {
+
+  $('#addNewBtn').on('click', clickSubmit);
+
+  $('#optionsRadios1').on('click',function() {
+    $("#priceInput").attr("placeholder", "Cost");
+  });
+
+  $('#optionsRadios2').on('click',function() {
+    $("#priceInput").attr("placeholder", "Monthly Rent");
+  });
+}
+
+// Event Handlers:
+function clickSubmit(){
+  console.log("addNewBtn clicked");
+  var property = {};
+  property.city = $("#cityInput").val();
+  property.sqft = $("#sqftInput").val();
+  // stores sale or rent depending on the value of the radio inputs:
+  var typeOfProperty = $('input[name=optionsRadios]:checked').val();
+  console.log("typeOfProperty = ", typeOfProperty);
+  if(typeOfProperty == "sale") {
+    property.cost = $("#priceInput").val();
+    console.log("cost:", property.cost);
+  } else {
+    property.rent = $("#priceInput").val();
+    console.log("rent:", property.rent);
+  }
+  $("#cityInput").val("");
+  $("#sqftInput").val("");
+  $("#priceInput").val("");
+  console.log(property, typeOfProperty);
+  postProperty(property, typeOfProperty);
+}
+
+function postProperty(property, type) {
+  console.log("In postProperties");
+  $.ajax({
+    type: "POST",
+    url: "/listings/" + type,
+    data: property,
+    success: function(response){
+      getProperties();
+    }
+  });
+}
+
+function getProperties() {
+  console.log("In getProperties");
   $.ajax({
     type: "GET",
     url: "/listings",
@@ -27,7 +77,6 @@ function displayProperties(arrayOfProperties) {
   var propertyCity;
   var propertyPrice;
   for (var i = 0; i < arrayOfProperties.length; i++) {
-
     for(var name in arrayOfProperties[i]) {
       switch (name) {
         case "_id":
@@ -40,7 +89,6 @@ function displayProperties(arrayOfProperties) {
         case "cost":
             propertyType = "FOR SALE";
             propertyPrice = "$" + arrayOfProperties[i][name];
-
           break;
         case "sqft":
             propertySqft = arrayOfProperties[i][name] + " Sqft";
@@ -48,21 +96,14 @@ function displayProperties(arrayOfProperties) {
         case "city":
             propertyCity = arrayOfProperties[i][name];
           break;
-        default:
-
       }
     }
-
     var elementsToAppend = '';
-
-    elementsToAppend +='<div class="col-xs-4 col-md-2">';
-    elementsToAppend +='<h3>' + propertyType + '</h3>';
-    elementsToAppend +='<p>' + propertyCity + '</p>';
-    elementsToAppend +='<p>' + propertySqft + '</p>';
-    elementsToAppend +='<p>' + propertyPrice + '</p></div>';
-    console.log(elementsToAppend);
+    elementsToAppend +='<div class="col-xs-4 col-md-2 ">'; //thumbnail
+    elementsToAppend +='<h3 class="text-center"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> ' + propertyType + '</h3>';
+    elementsToAppend +='<p class="text-center">' + propertyCity + '</p>';
+    elementsToAppend +='<p class="text-center">' + propertySqft + '</p>';
+    elementsToAppend +='<p class="text-center">' + propertyPrice + '</p></div>';
     $('.listingsContainerDiv').append(elementsToAppend);
   }
-
-
 }
