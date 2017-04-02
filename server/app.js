@@ -6,7 +6,7 @@ var listings = require("./routes/listings.js");
 
 //Database Variables
 var mongoose = require("mongoose");
-var mongoURI = "mongodb://localhost:27017/realestate";
+var mongoURI = "mongodb://realtor:12345@ds147480.mlab.com:47480/realestate";
 var MongoDB = mongoose.connect(mongoURI).connection;
 
 //Error connecting to the database
