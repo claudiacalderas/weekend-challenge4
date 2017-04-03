@@ -24,27 +24,28 @@ var Rent = mongoose.model("rent", RentSchema, "listings");
 router.get("/", function(req,res){
   //Get all properties
   console.log("listings get route");
-  Sale.find(function(err, SaleSchema){
+  Sale.find(function(err, allProperties){
     if(err){
       console.log(err);
       res.sendStatus(500);
     }
-    console.log(SaleSchema);
-    res.send(SaleSchema);
+    // console.log(allProperties);
+    res.send(allProperties);
   });
 });
 
 //Saves a new property
 router.post("/:type", function(req,res){
   var type = req.params.type;
+  var property;
   // checks if it is a rent or sale property
   // and based on that chooses the schema to use
   if (type === "sale") {
-    var property = new Sale();
+    property = new Sale();
     property.cost = req.body.cost;
 
   } else {
-    var property = new Rent();
+    property = new Rent();
     property.rent = req.body.rent;
   }
   property.city = req.body.city;
