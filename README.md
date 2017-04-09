@@ -34,3 +34,6 @@ Host the application on Heroku and mLabs. You will need to transfer the data up 
 2. Run `npm install`
 4. Ensure Mongo is running `mongod`
 5. If running the app locally, make sure mongoURI is pointing to the localhost database : `var mongoURI = 'mongodb://localhost:27017/realestate';` mongoURI is defined in /server/app.js
+
+## Screenshot
+![screenshot](screenshot.png)
